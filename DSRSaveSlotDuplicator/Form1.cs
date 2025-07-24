@@ -18,7 +18,7 @@ namespace DSRSaveSlotDuplicator
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                _toSave = ofd.FileName;
+                _fromSave = ofd.FileName;
                 fillDataGridView(ofd.FileName, dataGridView1);
             }
         }
@@ -51,14 +51,13 @@ namespace DSRSaveSlotDuplicator
                 }
             }
 
+            var charactersFrom = loadSave(_fromSave);
             var charactersTo = loadSave(_toSave);
-            charactersTo[to] = new Character(loadSave(_fromSave)[from].GetRawData(), to);
 
-            var charactersFrom = loadSave(_toSave);
-            charactersFrom[to] = new Character(loadSave(_fromSave)[from].GetRawData(), to);
+            charactersTo[to] = new Character(charactersFrom[from].GetRawData(), to);
 
             var characterTo = charactersTo[10];
-            var characterFrom = charactersTo[10];
+            var characterFrom = charactersFrom[10];
 
             //This is what you see when you click load game (name, lvl...). It loads automatically, but only after you enter the save.
             var patterTo = 0xC0 + 400 * to;
@@ -95,7 +94,7 @@ namespace DSRSaveSlotDuplicator
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                _fromSave = ofd.FileName;
+                _toSave = ofd.FileName;
                 fillDataGridView(ofd.FileName, dataGridView2);
             }
         }
